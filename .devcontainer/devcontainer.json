@@ -1,5 +1,5 @@
 {
-  "name": "OpenMAIC - Codespaces (personal Docker Compose trial)",
+  "name": "OpenMAIC - Codespaces (safe startup)",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
@@ -14,6 +14,5 @@
       "visibility": "private"
     }
   },
-  "postCreateCommand": "bash .devcontainer/bootstrap.sh",
-  "postStartCommand": "bash .devcontainer/restore.sh"
+  "postCreateCommand": "test -f .env.local || cp .env.example .env.local"
 }
