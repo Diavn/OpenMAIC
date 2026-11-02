@@ -6,8 +6,14 @@ This fork can be launched on a GitHub Codespace **without installing OpenMAIC on
 
 1. Open https://github.com/Diavn/OpenMAIC
 2. Select **Code → Codespaces → Create codespace on main**. If prompted, use a 4-core machine for the initial heavy build if the 2-core machine runs out of memory. A larger machine consumes the free compute quota faster.
-3. The Codespace uses `.devcontainer/devcontainer.json`. On its **first creation**, `postCreateCommand` copies `.env.example` to the **git-ignored** `.env.local` and runs `docker compose up -d --build`. This may take time and can fail if Codespaces does not have sufficient resources. It will **not** generate or request an API key.
-4. In the Codespaces terminal, run:
+3. The Codespace uses `.devcontainer/devcontainer.json`. The **first creation** only copies `.env.example` to the **git-ignored** `.env.local`. It deliberately does **not** attempt the large OpenMAIC Docker build during dev-container startup; this avoids putting the Codespace in recovery mode if application compilation fails. No API key is generated or requested.
+4. After the terminal is ready, **manually start the application**:
+   ```bash
+   cd /workspaces/OpenMAIC
+   bash .devcontainer/bootstrap.sh
+   ```
+   This builds and runs OpenMAIC and PostgreSQL. It may take substantial resources, especially on 2-core Codespaces; a failed application build should not prevent opening the development environment.
+5. Check the running services:
    ```bash
    docker compose ps
    docker compose logs --tail=100 openmaic
@@ -16,8 +22,8 @@ This fork can be launched on a GitHub Codespace **without installing OpenMAIC on
    ```bash
    bash .devcontainer/bootstrap.sh
    ```
-5. Open the **PORTS** panel, find port **3000**, make sure visibility is **Private**, then select **Open in Browser**. Do **not** make the port Public. The forwarded URL is unique to the actual Codespace.
-6. In the OpenMAIC web UI, configure an AI provider in **Settings → Model Services** (or **Settings → Token Plan**). The AI API may have its own separate costs. Do not paste API keys into the public repository.
+6. Open the **PORTS** panel, find port **3000**, make sure visibility is **Private**, then select **Open in Browser**. Do **not** make the port Public. The forwarded URL is unique to the actual Codespace.
+7. In the OpenMAIC web UI, configure an AI provider in **Settings → Model Services** (or **Settings → Token Plan**). The AI API may have its own separate costs. Do not paste API keys into the public repository.
 
 ## Manage the trial
 
